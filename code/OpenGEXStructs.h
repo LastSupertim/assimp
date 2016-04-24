@@ -2,7 +2,7 @@
 Open Asset Import Library (assimp)
 ----------------------------------------------------------------------
 
-Copyright (c) 2006-2014, assimp team
+Copyright (c) 2006-2016, assimp team
 All rights reserved.
 
 Redistribution and use of this software in source and binary forms,
@@ -127,7 +127,7 @@ struct Matrix {
 struct Transform {
     Matrix *matrix;
     int transformCount;
-    const float	*transformArray;
+    const float *transformArray;
 };
 
 struct Translation {
@@ -143,7 +143,7 @@ struct Scale {
 };
 
 struct Name {
-    std::string	name;
+    std::string name;
 };
 
 
@@ -157,18 +157,18 @@ struct MaterialRef {
 };
 
 struct BoneRefArray {
-    int	boneCount;
+    int boneCount;
     const BoneNode **boneNodeArray;
 };
 
 struct BoneCount {
-    int	vertexCount;
+    int vertexCount;
     const unsigned short *boneCountArray;
     unsigned short *arrayStorage;
 };
 
 struct BoneIndex {
-    int	boneIndexCount;
+    int boneIndexCount;
     const unsigned short *boneIndexArray;
     unsigned short *arrayStorage;
 };

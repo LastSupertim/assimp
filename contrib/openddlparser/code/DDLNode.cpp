@@ -1,7 +1,7 @@
 /*-----------------------------------------------------------------------------------------------
 The MIT License (MIT)
 
-Copyright (c) 2014 Kim Kulling
+Copyright (c) 2014-2015 Kim Kulling
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -49,11 +49,7 @@ static void releaseReferencedNames( Reference *ref ) {
         return;
     }
 
-    if( ref->m_referencedName ) {
-        for( size_t i = 0; i < ref->m_numRefs; i++ ) {
-            delete ref->m_referencedName;
-        }
-    }
+    delete ref;
 }
 
 DDLNode::DDLNode( const std::string &type, const std::string &name, size_t idx, DDLNode *parent )
@@ -121,7 +117,6 @@ const std::string &DDLNode::getType() const {
     return m_type;
 }
 
-
 void DDLNode::setName( const std::string &name ) {
     m_name = name;
 }
@@ -136,6 +131,36 @@ void DDLNode::setProperties( Property *prop ) {
 
 Property *DDLNode::getProperties() const {
     return m_properties;
+}
+
+bool DDLNode::hasProperty( const std::string &name ) {
+    const Property *prop( findPropertyByName( name ) );
+    return ( ddl_nullptr != prop );
+}
+
+bool DDLNode::hasProperties() const {
+    return( ddl_nullptr != m_properties );
+}
+
+Property *DDLNode::findPropertyByName( const std::string &name ) {
+    if( name.empty() ) {
+        return ddl_nullptr;
+    }
+
+    if( ddl_nullptr == m_properties ) {
+        return ddl_nullptr;
+    }
+
+    Property *current( m_properties );
+    while( ddl_nullptr != current ) {
+        int res = strncmp( current->m_key->m_buffer, name.c_str(), name.size() );
+        if( 0 == res ) {
+            return current;
+        }
+        current = current->m_next;
+    }
+
+    return ddl_nullptr;
 }
 
 void DDLNode::setValue( Value *val ) {
